@@ -16,7 +16,9 @@ test('renders the AppToolbar', () => {
     />
   );
 
-  expect(screen.queryByText('Intelligence Bank Coding Exercise')).toBeInTheDocument();
+  expect(
+    screen.queryByText('Intelligence Bank Coding Exercise')
+  ).toBeInTheDocument();
 });
 
 test('Cannot see user icon when logged out', () => {
@@ -33,11 +35,7 @@ test('Cannot see user icon when logged out', () => {
 
 test('Can see user icon when logged in', () => {
   render(
-    <AppToolbar
-      isLoggedIn
-      onLogin={onLoginMock}
-      onLogout={onLogoutMock}
-    />
+    <AppToolbar isLoggedIn onLogin={onLoginMock} onLogout={onLogoutMock} />
   );
 
   expect(screen.queryByLabelText('user icon')).toBeInTheDocument();
@@ -60,11 +58,7 @@ test('Calls onLogin callback when clicking login', () => {
 
 test('Calls onLogout callback when clicking logout', () => {
   render(
-    <AppToolbar
-      isLoggedIn
-      onLogin={onLoginMock}
-      onLogout={onLogoutMock}
-    />
+    <AppToolbar isLoggedIn onLogin={onLoginMock} onLogout={onLogoutMock} />
   );
 
   const userIcon = screen.queryByLabelText('user icon');

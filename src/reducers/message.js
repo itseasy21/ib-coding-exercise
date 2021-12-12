@@ -1,4 +1,4 @@
-import { SESSION_ACTIONS } from "../actions/types";
+import { SESSION_ACTIONS } from '../actions/types';
 
 const initialState = {};
 
@@ -10,7 +10,7 @@ export default function reducer(state = initialState, action) {
       return { message: payload };
 
     case SESSION_ACTIONS.CLEAR_MESSAGE:
-      return { message: "" };
+      return { message: '' };
 
     default:
       return state;

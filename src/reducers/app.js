@@ -3,7 +3,7 @@ import { Map } from 'immutable';
 import { APP_ACTIONS } from '../actions/types';
 
 const initialState = Map({
-  locale: 'en'
+  locale: 'en',
 });
 
 export default function reducer(state = initialState, action) {

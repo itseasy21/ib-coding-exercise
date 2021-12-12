@@ -1,6 +1,6 @@
-import { SESSION_ACTIONS } from "./types";
+import { SESSION_ACTIONS } from './types';
 
-export const setMessage = (message) => ({
+export const setMessage = message => ({
   type: SESSION_ACTIONS.SET_MESSAGE,
   payload: message,
 });

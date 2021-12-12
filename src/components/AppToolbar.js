@@ -10,13 +10,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   title: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 
 function AppToolbar({ isLoggedIn, onLogin, onLogout }) {
@@ -33,23 +33,23 @@ function AppToolbar({ isLoggedIn, onLogin, onLogout }) {
   };
 
   return (
-    <AppBar position='static'>
+    <AppBar position="static">
       <Toolbar>
         <img
-          alt='intelligence bank logo'
-          src='/ib-logo.png'
+          alt="intelligence bank logo"
+          src="/ib-logo.png"
           style={{ width: 48, height: 48, paddingRight: 24 }}
         />
-        <Typography variant='h6' className={classes.title}>
+        <Typography variant="h6" className={classes.title}>
           Intelligence Bank Coding Exercise
         </Typography>
         {isLoggedIn ? (
           <>
             <IconButton
-              aria-label='user icon'
-              aria-controls='user-menu'
-              aria-haspopup='true'
-              color='inherit'
+              aria-label="user icon"
+              aria-controls="user-menu"
+              aria-haspopup="true"
+              color="inherit"
               onClick={handleClickUserMenu}
               innerRef={userIconRef}
             >
@@ -59,22 +59,28 @@ function AppToolbar({ isLoggedIn, onLogin, onLogout }) {
               anchorEl={userIconRef.current}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'right'
+                horizontal: 'right',
               }}
-              aria-label='user menu'
+              aria-label="user menu"
               getContentAnchorEl={null}
-              id='user-menu'
+              id="user-menu"
               onClose={handleCloseUserMenu}
               open={userMenuOpen}
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'right'
+                horizontal: 'right',
               }}
             >
-              <MenuItem aria-label='logout' onClick={onLogout}>Logout</MenuItem>
+              <MenuItem aria-label="logout" onClick={onLogout}>
+                Logout
+              </MenuItem>
             </Menu>
           </>
-        ) : <Button color='inherit' aria-label='login' onClick={onLogin}>Login</Button>}
+        ) : (
+          <Button color="inherit" aria-label="login" onClick={onLogin}>
+            Login
+          </Button>
+        )}
       </Toolbar>
     </AppBar>
   );
@@ -83,7 +89,7 @@ function AppToolbar({ isLoggedIn, onLogin, onLogout }) {
 AppToolbar.propTypes = {
   isLoggedIn: bool.isRequired,
   onLogout: func.isRequired,
-  onLogin: func.isRequired
+  onLogin: func.isRequired,
 };
 
 export default AppToolbar;

@@ -1,20 +1,20 @@
 import { bool, func, string } from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import AppToolbar from '../components/AppToolbar';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-import { logout } from "../actions/session";
+import { logout } from '../actions/session';
 function Main(props) {
   const dispatch = useDispatch();
   const { message, isLoggedIn } = props;
   const [showSnack, setshowSnack] = useState(false);
 
   useEffect(() => {
-    if(message) setshowSnack(true);
-  }, [message])
+    if (message) setshowSnack(true);
+  }, [message]);
 
   const handleLogin = () => {
     props.history.push('/login');
@@ -37,17 +37,26 @@ function Main(props) {
 
   return (
     <>
-    <AppToolbar
-      isLoggedIn={isLoggedIn}
-      onLogin={handleLogin}
-      onLogout={logOut}
-    />
-    {message ? (<Snackbar open={showSnack} autoHideDuration={10000} onClose={handleClose}>
-      <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-        {message}
-      </Alert>
-    </Snackbar>) : undefined}
-    
+      <AppToolbar
+        isLoggedIn={isLoggedIn}
+        onLogin={handleLogin}
+        onLogout={logOut}
+      />
+      {message ? (
+        <Snackbar
+          open={showSnack}
+          autoHideDuration={10000}
+          onClose={handleClose}
+        >
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: '100%' }}
+          >
+            {message}
+          </Alert>
+        </Snackbar>
+      ) : undefined}
     </>
   );
 }
@@ -61,13 +70,13 @@ Main.propTypes = {
 const mapStateToProps = state => {
   return {
     isLoggedIn: state.getIn(['default', 'session']).isLoggedIn,
-    message: state.getIn(['default', 'message']).message
+    message: state.getIn(['default', 'message']).message,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    push: path => dispatch(push(path))
+    push: path => dispatch(push(path)),
   };
 };
 

@@ -7,7 +7,7 @@ import configureStore from '../../store';
 
 import { Provider } from 'react-redux';
 import Login from '../Login';
-import LoginBox from '../../components/LoginBox'
+import LoginBox from '../../components/LoginBox';
 
 const procesLoginMock = jest.fn();
 
@@ -25,24 +25,24 @@ test('renders the Login Form on Login Page', () => {
 });
 
 test('Login Form has a Username field', () => {
-    render(
-      <Provider store={store}>
-        <Login />
-      </Provider>
-    );
-  
-    expect(screen.queryByLabelText('Username')).toBeInTheDocument();
-  });
+  render(
+    <Provider store={store}>
+      <Login />
+    </Provider>
+  );
 
-  test('Login Form has a Password field', () => {
-    render(
-      <Provider store={store}>
-        <Login />
-      </Provider>
-    );
-  
-    expect(screen.queryByLabelText('Password')).toBeInTheDocument();
-  });
+  expect(screen.queryByLabelText('Username')).toBeInTheDocument();
+});
+
+test('Login Form has a Password field', () => {
+  render(
+    <Provider store={store}>
+      <Login />
+    </Provider>
+  );
+
+  expect(screen.queryByLabelText('Password')).toBeInTheDocument();
+});
 
 test('Calls processLogin callback when clicking login', () => {
   render(
@@ -60,9 +60,11 @@ test('Calls processLogin callback when clicking login', () => {
 test('Redirect to / if user is logged in', () => {
   render(
     <Provider store={store}>
-        <Login isLoggedIn={true} />
+      <Login isLoggedIn={true} />
     </Provider>
   );
 
-  expect(screen.queryByLabelText('Please log in below')).not.toBeInTheDocument();
+  expect(
+    screen.queryByLabelText('Please log in below')
+  ).not.toBeInTheDocument();
 });
