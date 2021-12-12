@@ -51,14 +51,6 @@ function LoginBox({processLogin}){
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [hasError, sethasError] = useState(false);
-  
-  const required = (value) => {
-      if (!value) {
-        return (
-            <Alert severity="warning">This field is required!</Alert>
-        );
-      }
-    };
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -92,7 +84,7 @@ function LoginBox({processLogin}){
                 margin="normal"
                 value={username}
                 onChange={onChangeUsername}
-                validations={[required]}
+                helperText={hasError ? "The field is required, and valid value is testuser" : ""}
               />
               <TextField
                 error={hasError}
@@ -104,7 +96,7 @@ function LoginBox({processLogin}){
                 margin="normal"
                 value={password}
                 onChange={onChangePassword}
-                validations={[required]}
+                helperText={hasError ? "The field is required, and valid value is password" : ""}
               />
             </div>
           </CardContent>
