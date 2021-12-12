@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const port = 3001;
 
 app.use(express.json());
+
 
 const TEST_USER = {
   username: 'testuser',
@@ -23,7 +25,9 @@ function login(postParams) {
   return null
 }
 
-app.post('/api/login', (req, res) => {
+app.options('/api/login', cors()) // enable pre-flight request for POST 
+
+app.post('/api/login', cors(), (req, res) => {
   const userDetails = login(req.body);
   if (userDetails) {
     res
