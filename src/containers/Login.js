@@ -27,10 +27,8 @@ function Login(props) {
 
     setLoading(true);
 
-    // if(form && form.current)
     form.current.validateAll();
-
-    // if (checkBtn.context._errors.length === 0) {
+    
     if(username && password){
       dispatch(login(username, password))
         .then(() => {
