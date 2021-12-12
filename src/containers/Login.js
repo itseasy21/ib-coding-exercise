@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { bool, func } from 'prop-types';
-import { connect, useDispatch, useSelector } from 'react-redux';
+import { bool, func, string } from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 import { Redirect } from 'react-router';
 import TextField from '@mui/material/TextField';
-import Button from "@mui/material/Button"
-
-import { createStyles, makeStyles, Theme } from '@mui/styles';
+import LoginButton from "../components/LoginButton"
+import Button from '@mui/material/Button'
+import { createStyles, makeStyles } from '@mui/styles';
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -20,6 +20,8 @@ import CheckButton from "react-validation/build/button";
 import { SESSION_ACTIONS } from '../actions/types';
 import { login, logout } from "../actions/session";
 import AppToolbar from '../components/AppToolbar';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -57,21 +59,26 @@ const required = (value) => {
 function Login(props) {
 
   const classes = useStyles();
-
-  const handleLogin = () => {
-    props.history.push('/login');
-  };
-
   const form = useRef();
   const checkBtn = useRef();
 
+  const [showSnack, setshowSnack] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const { message } = useSelector(state => state.message);
+  const { message, isLoggedIn } = props;
+  console.log(message);
+
+  useEffect(() => {
+    if(message) setshowSnack(true);
+  }, [message])
 
   const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    props.history.push('/login');
+  };
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -109,14 +116,26 @@ function Login(props) {
     dispatch(logout());
   };
 
-  if (props.isLoggedIn) {
+  if (isLoggedIn) {
     return <Redirect to="/" />;
   }
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setshowSnack(false);
+  };
 
   return (
       <>
     <AppToolbar
-      isLoggedIn={props.isLoggedIn}
+      isLoggedIn={isLoggedIn}
       onLogin={handleLogin}
       onLogout={logOut}
     />
@@ -152,15 +171,16 @@ function Login(props) {
           </div>
         </CardContent>
         <CardActions>
-          <Button
+          <LoginButton
             variant="contained"
             size="large"
             color="primary"
             className={classes.loginBtn}
             onClick={processLogin}
+            loading={loading}
             >
             Login
-          </Button>
+          </LoginButton>
           <Button
             variant="contained"
             size="large"
@@ -177,20 +197,26 @@ function Login(props) {
         </CardActions>
       </Card>
     </Form>
-    </>
+    {message ? (<Snackbar open={showSnack} autoHideDuration={10000} onClose={handleClose}>
+      <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+        {message}
+      </Alert>
+    </Snackbar>) : undefined}
+  </>
   );
 }
 
 Login.propTypes = {
   isLoggedIn: bool.isRequired,
-  logout: func.isRequired,
-  push: func.isRequired
+  push: func.isRequired,
+  message: string,
 };
 
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.getIn(['default', 'session']).isLoggedIn
+    isLoggedIn: state.getIn(['default', 'session']).isLoggedIn,
+    message: state.getIn(['default', 'message']).message
   };
 };
 

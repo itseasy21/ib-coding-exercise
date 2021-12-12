@@ -10,6 +10,11 @@ export const login = (username, password) => (dispatch) => {
           type: SESSION_ACTIONS.LOGIN_SUCCESS,
           payload: { user: data },
         });
+
+        dispatch({
+          type: SESSION_ACTIONS.SET_MESSAGE,
+          payload: "Login Success!",
+        });
   
         return Promise.resolve();
       },
