@@ -1,21 +1,25 @@
 import { bool, func } from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-
-import { SESSION_ACTIONS } from '../actions/types';
 
 import AppToolbar from '../components/AppToolbar';
 
-function Main({ isLoggedIn, logout, push }) {
+import { logout } from "../actions/session";
+function Main(props) {
+  const dispatch = useDispatch();
   const handleLogin = () => {
-    push('/login');
+    props.history.push('/login');
+  };
+
+  const logOut = () => {
+    dispatch(logout());
   };
 
   return (
     <AppToolbar
-      isLoggedIn={isLoggedIn}
+      isLoggedIn={props.isLoggedIn}
       onLogin={handleLogin}
-      onLogout={logout}
+      onLogout={logOut}
     />
   );
 }
@@ -28,13 +32,12 @@ Main.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: !!state.getIn(['session', 'username'])
+    isLoggedIn: state.getIn(['default', 'session']).isLoggedIn
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(SESSION_ACTIONS.LOGOUT),
     push: path => dispatch(push(path))
   };
 };

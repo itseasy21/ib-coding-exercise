@@ -2,18 +2,34 @@ import { Map } from 'immutable';
 
 import { SESSION_ACTIONS } from '../actions/types';
 
-const initialState = Map({
-  username: null,
-  fullname: null
-});
+const user = JSON.parse(localStorage.getItem("user"));
+
+const initialState = user
+  ? { isLoggedIn: true, user }
+  : { isLoggedIn: false, user: null };
+
 
 export default function reducer(state = initialState, action) {
-  switch (action.type) {
+  const { type, payload } = action;
+  switch (type) {
+    case SESSION_ACTIONS.LOGIN_SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: payload.user,
+      };
+    case SESSION_ACTIONS.LOGIN_FAIL:
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
+      };
     case SESSION_ACTIONS.LOGOUT:
-      return state.merge({ fullname: null, username: null });
-    case SESSION_ACTIONS.SET_USER_DETAILS:
-      const { username, fullname } = action.payload;
-      return state.merge({ fullname, username });
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
+      };
     default:
       return state;
   }
