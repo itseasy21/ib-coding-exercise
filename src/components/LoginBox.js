@@ -12,12 +12,7 @@ import CardHeader from '@mui/material/CardHeader';
 
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
-import MuiAlert from '@mui/material/Alert';
 import { createStyles, makeStyles } from '@mui/styles';
-
-const Alert = React.forwardRef(function Alert(props, ref) {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
 
 const useStyles = makeStyles(() =>
 createStyles({
